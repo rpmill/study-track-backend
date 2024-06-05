@@ -30,6 +30,7 @@ app.use(express.json());
 app.use('/', express.static(path.join(__dirname, 'public')));
 
 app.use('/', require('./routes/root'));
+app.use('/api/v1/teachers', require('./routes/teacherRoutes'));
 
 app.all('*', (req: Request, res: Response) => {
     res.status(404);
