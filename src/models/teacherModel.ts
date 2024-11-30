@@ -21,8 +21,8 @@ export interface TeacherDocument extends TeacherInput, mongoose.Document {
 const teacherSchema = new mongoose.Schema({
     name: { type: String, required: true },
     userName: { type: String, required: true },
-    email: { type: String, required: true },
-    password: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true, select: false },
     parentOrg: { type: mongoose.Schema.Types.ObjectId, ref: 'ParentOrg' },
     classrooms: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Classroom' }],
     lessonPlans: [{ type: mongoose.Schema.Types.ObjectId, ref: 'LessonPlan' }],
