@@ -4,7 +4,6 @@ const {
     combine,
     timestamp,
     json,
-    colorize,
     align,
     printf,
     errors
@@ -13,7 +12,7 @@ const {
 const logger = winston.createLogger({
     level: process.env.LOG_LEVEL || 'info',
     format: combine(
-        colorize({ all: true}),
+        json(),
         timestamp(),
         align(),
         errors({

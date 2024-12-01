@@ -28,7 +28,7 @@ app.listen(port, async () => {
         await connect();
 
         logger.info('======================================================');
-        logger.info(`[server]: Server is running at http://localhost:${port}`);
+        logger.info(`Server is running at http://localhost:${port}`);
         logger.info('======================================================');
 
     } catch (err) {
@@ -37,7 +37,7 @@ app.listen(port, async () => {
 });
 
 mongoose.connection.once('open', () => {
-    logger.info(`[server]: Connected to MongoDB`);
+    logger.info(`Connected to MongoDB`);
 });
 
 mongoose.connection.on('error', (err: Error) => {
