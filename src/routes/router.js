@@ -1,15 +1,15 @@
-import { Router, Request, Response } from 'express';
+const { Router } = require('express');
 
-export const router = Router();
+const router = Router();
 
 // teachers
 router.route('/teachers')
-    .get((req: Request, res: Response) => {
+    .get((req, res) => {
         res.status(200).send({ message: 'All good!' });
     })
 
 router.route('/teachers/:teacherId')
-    .get((req: Request, res: Response) => {
+    .get((req, res) => {
         res.status(200).send({ message: 'You made it here!' });
     })
 
@@ -22,3 +22,5 @@ router.route('/teachers/:teacherId')
 // lessons
 
 // parentOrgs
+
+module.exports = router;

@@ -1,5 +1,6 @@
 {
     "watch": ["src"],
-    "ext": ".ts,.js",
-    "exec": "ts-node -r dotenv/config ./src/index.ts"
+    "ext": ".js",
+    "exec": "node ./src/index.js",
+    "verbose": true
 }

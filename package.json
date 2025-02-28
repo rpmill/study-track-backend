@@ -11,16 +11,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/config": "^3.3.5",
-    "@types/express": "^5.0.0",
-    "@types/mongoose": "^5.11.96",
-    "dotenv": "^16.4.5",
-    "nodemon": "^3.1.7",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.7.2"
+    "nodemon": "^3.1.7"
   },
   "dependencies": {
     "config": "^3.3.12",
+    "dotenv": "^16.4.7",
     "express": "^4.21.1",
     "mongoose": "^8.8.3"
   }

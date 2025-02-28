@@ -1,0 +1,10 @@
+const { Router } = require('express');
+const path = require('path');
+
+const baseRouter = Router();
+
+baseRouter.get('^/$|/index(.html)?', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'views', 'index.html'));
+});
+
+module.exports = baseRouter;
