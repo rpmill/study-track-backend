@@ -1,8 +1,12 @@
 const { Router } = require('express');
 const parentLogger = require('../utils/logger');
 const logger = parentLogger.logger.child({ location: 'router' });
+const authRoutes = require('./auth');
 
 const router = Router();
+
+// authentication
+router.route('/auth', authRoutes);
 
 // teachers
 router.route('/teachers')
