@@ -1,5 +1,7 @@
 const { Router } = require('express');
 const path = require('path');
+const parentLogger = require('../utils/logger');
+const logger = parentLogger.logger.child({ location: 'root' });
 
 const baseRouter = Router();
 

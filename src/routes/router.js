@@ -1,4 +1,6 @@
 const { Router } = require('express');
+const parentLogger = require('../utils/logger');
+const logger = parentLogger.logger.child({ location: 'router' });
 
 const router = Router();
 
