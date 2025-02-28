@@ -5,6 +5,8 @@ const connect = require('./db/connect');
 const path = require('path');
 const router = require('./routes/router');
 const baseRouter = require('./routes/root');
+const parentLogger = require('../utils/logger');
+const logger = parentLogger.logger.child({ location: 'index' });
 
 const app = express();
 
@@ -24,18 +26,18 @@ app.listen(port, async() => {
     try {
         await connect();
 
-        console.log('=======================================================');
-        console.log(`[server]: Server is running at http://localhost:${port}`);
-        console.log('=======================================================');
+        logger.info('=======================================================');
+        logger.info(`[server]: Server is running at http://localhost:${port}`);
+        logger.info('=======================================================');
     } catch (err) {
-        console.log('Error starting server: ', err);
+        logger.error(`Error starting server: ${err}`);
     }
 });
 
 mongoose.connection.once('open', () => {
-    console.log(`[server]: Connected to MongoDB`);
+    logger.info(`[server]: Connected to MongoDB`);
 });
 
 mongoose.connection.on('error', (err) => {
-    console.log(err);
+    logger.error(err);
 });
