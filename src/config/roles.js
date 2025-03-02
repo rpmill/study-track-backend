@@ -3,3 +3,5 @@ const roles = {
     TEACHER: 'teacher',
     STUDENT: 'student'
 }
+
+module.exports = roles;

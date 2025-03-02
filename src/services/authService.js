@@ -2,13 +2,22 @@ const parentLogger = require('../utils/logger');
 const logger = parentLogger.logger.child({ location: 'root' });
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const Teacher = require("../models/Teacher");
+const Teacher = require("../models/teacherModel");
 const Organization = require('../models/organizationModel');
 const { TEACHER, ADMIN } = require('../config/roles');
 
+async function generateToken(id, role) {
+    try {
+        return jwt.sign({ id, role }, process.env.JWT_SECRET, { expiresIn: "7d" });
+    } catch (err) {
+        logger.error(err);
+        throw(err);
+    }
+};
+
 async function register(body) {
     try {
-        const { name, email, password, role, organizationName, inviteCode } = body;
+        const { name, email, password, organizationName, inviteCode } = body;
         let response = { code: null, message: null };
 
         let organization = null;
@@ -33,6 +42,8 @@ async function register(body) {
             return response;
         }
 
+        console.log(inviteCode ? TEACHER : ADMIN);
+
         const user = await Teacher.create({
             name,
             email,
@@ -54,6 +65,30 @@ async function register(body) {
     }
 };
 
+async function login(body) {
+    try {
+        const { email, password } = body;
+        const user = await Teacher.findOne({ email });
+        let response = { code: null, message: null };
+
+        if (!user || !(await user.matchPassword(password))) {
+            response.code = 401;
+            response.message = 'Invalid credentials';
+            return response;
+        }
+
+        const token = await generateToken(user._id, user.role);
+
+        return { token: token, user: { id: user._id, name: user.name, role: user.role } };
+    } catch(err) {
+        logger.error(err);
+        response.code = 500;
+        response.message = err.message;
+        return response;
+    }
+}
+
 module.exports = {
-    register
+    register,
+    login
 }

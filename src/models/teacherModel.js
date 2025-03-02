@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 const { ADMIN, TEACHER } = require('../config/roles');
+const bcrypt = require('bcryptjs');
 
 const TeacherSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true},
-    role: { type: String, enum: [ADMIN, TEACHER], default: TEACHER},
+    role: { type: String, required: true, enum: [ADMIN, TEACHER], default: TEACHER},
     organization: { type: mongoose.Schema.Types.ObjectId, ref: "Organization" },
     classrooms: [{ type: mongoose.Schema.Types.ObjectId, ref: "Classroom" }]
   });
