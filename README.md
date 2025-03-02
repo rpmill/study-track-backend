@@ -37,7 +37,7 @@ Local development and deployed to the dev environment, use __study-tracker-dev__
 
 You can conduct a quick health check by heading to `http://localhost:4000/api/health` in the browser.
 
-## Logging
+## 2. Logging
 
 ### 2.1 Adding a Logger
 
@@ -51,3 +51,21 @@ const logger = parentLogger.logger.child({ location: 'doSomethingService' });
 ### 2.2 Logger Ouput
 
 Currently, the logger is set to output to the console.
+
+## 3. Authentication
+
+### 3.1 Login
+
+Logging in as a teacher will retrieve a jwt in the response body.
+
+Response from login call:
+
+```sh
+{ token: token, user: { id: user._id, name: user.name, role: user.role }
+```
+
+The token must be passed in the header for subsequent requests on protected routes:
+
+```sh
+{Authorization: "Bearer token"} 
+```

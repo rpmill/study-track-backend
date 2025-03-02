@@ -5,7 +5,7 @@ const connect = require('./db/connect');
 const path = require('path');
 const router = require('./routes/router');
 const baseRouter = require('./routes/root');
-const parentLogger = require('../utils/logger');
+const parentLogger = require('./utils/logger');
 const logger = parentLogger.logger.child({ location: 'index' });
 
 const app = express();
