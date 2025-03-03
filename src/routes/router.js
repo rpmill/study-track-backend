@@ -2,7 +2,9 @@ const { Router } = require('express');
 const parentLogger = require('../utils/logger');
 const logger = parentLogger.logger.child({ location: 'router' });
 const authRoutes = require('./auth');
-const { protect, isAdmin } = require('../middleware/authMiddleware');
+const teacherRoutes = require('./teachers');
+const classroomRoutes = require('./classrooms');
+const { protect, isAdmin, isTeacher, isAdminOrTeacher } = require('../middleware/authMiddleware');
 
 const router = Router();
 
@@ -15,19 +17,12 @@ router.use('/auth', authRoutes);
 //     })
 
 // teachers
-router.route('/teachers')
-    .get(protect, (req, res) => {
-        res.status(200).send({ message: 'All good!' });
-    })
-
-router.route('/teachers/:teacherId')
-    .get((req, res) => {
-        res.status(200).send({ message: 'You made it here!' });
-    })
+router.route('/teachers', protect, teacherRoutes);
 
 // students
 
 // classrooms
+router.route('/classrooms', protect, isAdminOrTeacher, classroomRoutes);
 
 // lessonPlans
 

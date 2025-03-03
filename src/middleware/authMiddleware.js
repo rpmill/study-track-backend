@@ -33,7 +33,33 @@ function isAdmin (req, res, next) {
     }
 };
 
+function isTeacher (req, res, next) {
+    try {
+        if (!req.user || req.user.role !== TEACHER)
+            return res.status(403).json({ message: 'Access denied' });
+
+        next();
+    } catch (err) {
+        logger.error(err);
+        res.status(403).json({ message: 'An error occurred validating access. Please try again later.' });
+    }
+};
+
+function isAdminOrTeacher (req, res, next) {
+    try {
+        if (!req.user || req.user.role !== ADMIN || req.user.role !== TEACHER)
+            return res.status(403).json({ message: 'Access denied' });
+
+        next();
+    } catch (err) {
+        logger.error(err);
+        res.status(403).json({ message: 'An error occurred validating access. Please try again later.' });
+    }
+};
+
 module.exports = {
     protect,
-    isAdmin
+    isAdmin,
+    isTeacher,
+    isAdminOrTeacher
 }
