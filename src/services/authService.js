@@ -1,5 +1,5 @@
 const parentLogger = require('../utils/logger');
-const logger = parentLogger.logger.child({ location: 'root' });
+const logger = parentLogger.logger.child({ location: 'authService' });
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Teacher = require("../models/teacherModel");
@@ -42,7 +42,7 @@ async function register(body) {
             return response;
         }
 
-        console.log(inviteCode ? TEACHER : ADMIN);
+        
 
         const user = await Teacher.create({
             name,

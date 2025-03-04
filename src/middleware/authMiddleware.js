@@ -6,6 +6,8 @@ const { TEACHER, ADMIN } = require ('../config/roles');
 
 async function protect(req, res, next) {
     try {
+        logger.debug('protect function called');
+        
         const token = req.headers.authorization?.split(' ')[1];
 
         if (!token)
@@ -23,7 +25,39 @@ async function protect(req, res, next) {
 
 function isAdmin (req, res, next) {
     try {
+        logger.debug('isAdmin function called');
+        
         if (!req.user || req.user.role !== ADMIN)
+            return res.status(403).json({ message: 'Access denied' });
+
+        next();
+    } catch (err) {
+        logger.error(err);
+        res.status(403).json({ message: 'An error occurred validating access. Please try again later.' });
+    }
+};
+
+function isTeacher (req, res, next) {
+    try {
+        logger.debug('isTeacher function called');
+        
+        if (!req.user || req.user.role !== TEACHER)
+            return res.status(403).json({ message: 'Access denied' });
+
+        next();
+    } catch (err) {
+        logger.error(err);
+        res.status(403).json({ message: 'An error occurred validating access. Please try again later.' });
+    }
+};
+
+function isAdminOrTeacher (req, res, next) {
+    try {
+        logger.debug('isAdminOrTeacher function called');
+        
+        const roles = [ADMIN, TEACHER];
+        
+        if (!req.user || !roles.includes(req.user?.role))
             return res.status(403).json({ message: 'Access denied' });
 
         next();
@@ -35,5 +69,7 @@ function isAdmin (req, res, next) {
 
 module.exports = {
     protect,
-    isAdmin
+    isAdmin,
+    isTeacher,
+    isAdminOrTeacher
 }
