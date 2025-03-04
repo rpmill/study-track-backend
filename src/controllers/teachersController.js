@@ -10,7 +10,6 @@ async function addLessonPlanHandler(req, res) {
 };
 
 module.exports = {
-    addClassroomHandler,
     addStudentHandler,
     addLessonPlanHandler
 }

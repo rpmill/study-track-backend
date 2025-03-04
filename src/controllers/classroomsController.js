@@ -2,18 +2,37 @@ const parentLogger = require('../utils/logger');
 const logger = parentLogger.logger.child({ location: 'classroomsController' });
 const Teacher = require('../models/teacherModel');
 const Classroom = require('../models/classroomModel');
+const classroomsService = require('../services/classroomsService');
 
 async function addClassroomHandler(req, res) {
     try {
+        // get the teacher id
+        const { teacher } = req.body;
 
+        // validate it's a real teacher
+        const _teacher = await Teacher.findById(teacher);
+
+        logger.debug(_teacher);
+
+        if (!_teacher) {
+            res.status(404).json({ message: 'Teacher not found' });
+        }
+
+        // call the service to create the new classroom
+        const classroom =  await classroomsService.addClassroom(req.body);
+
+        res.status(201).json(classroom);
     } catch (err) {
         logger.error(err);
+        res.status(500).json({ message: err.message });
     }
 };
 
 async function getAllClassroomsHandler(req, res) {
     try {
+        const classrooms = await classroomsService.getAllClassrooms(req)
 
+        res.status(200).json(classrooms);
     } catch (err) {
         logger.error(err);
     }
@@ -22,41 +41,39 @@ async function getAllClassroomsHandler(req, res) {
 async function getClassroomsHandler(req, res) {
     try {
         // validate the teacher
-        // refactor to call the service here
+        // TODO - refactor to call the service here
         const teacher = Teacher.findOne({ _id: req.params.teacherid });
 
         if (!teacher) 
-            return res.status(403).json({ message: 'Teacher not found' });
+            return res.status(404).json({ message: 'Teacher not found' });
 
-        // get the classrooms array associated with the teacher
-        let classrooms;
+        const classrooms =  await classroomsService.getClassroomsByTeacherId(req.user._id);
 
-        teacher.classrooms.forEach((classroom) => {
-            let _classroomId = classroom.id;
-            console.log(_classroomId);
-
-            // refactor to call the service here
-            let _classroom = Classrooms.findOne({ _id: _classroomId });
-
-            if (_classroom)
-                classrooms.push(_classroom);
-        });
+        res.status(200).json(classrooms);
     } catch (err) {
         logger.error(err);
+        res.status(500).json({ message: err.message });
     }
 };
 
 async function updateClassroomHandler(req, res) {
     try {
+        const classroom = await classroomsService.updateClassroomById(req);
 
+        res.status(200).json(classroom);
     } catch (err) {
         logger.error(err);
+        res.status(500).json({ message: err.message });
     }
 };
 
 async function deleteClassroomHandler(req, res) {
     try {
+        console.log('we made it to the delete');
+        
+        const classroom = await classroomsService.deleteClassroomById(req.params?.id);
 
+        res.status(200).json(classroom);
     } catch (err) {
         logger.error(err);
     }

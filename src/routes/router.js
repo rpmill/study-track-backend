@@ -17,12 +17,12 @@ router.use('/auth', authRoutes);
 //     })
 
 // teachers
-router.route('/teachers', protect, teacherRoutes);
+router.use('/teachers', protect, teacherRoutes);
 
 // students
 
 // classrooms
-router.route('/classrooms', protect, isAdminOrTeacher, classroomRoutes);
+router.use('/classrooms', protect, isAdminOrTeacher, classroomRoutes);
 
 // lessonPlans
 
