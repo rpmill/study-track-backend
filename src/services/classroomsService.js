@@ -130,9 +130,9 @@ async function deleteClassroomById(id) {
 
 async function getAllClassrooms(data) {
     try {
-        // TODO - flesh this out
+        
+        return await Classroom.find();
 
-        // return all classrooms for the organization
     } catch (err) {
         logger.error(err);
         throw (err);
